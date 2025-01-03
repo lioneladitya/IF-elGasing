@@ -1,101 +1,113 @@
 "use client";
 
-import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import { getData, setUpdateStatus} from './models/mahasiswa';
+import { faPencil, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { getData, setUpdateStatus } from "./models/mahasiswa";
 
-
+// buat fungsi untuk dialog hapus
+async function setDelete(npm: string, nama: string) {
+  // alert("Hapus Data");
+  if (confirm(`Data Mahasiswa : ${npm} - ${nama} Ingin Dihapus ?`) == true) {
+    await setUpdateStatus(npm);
+    alert(`Data Mahasiswa : ${npm} - ${nama} Berhasil Dihapus`);
+    // reload otomatis
+    location.reload();
+  }
+  // else
+  // {
+  //   alert("Cancel");
+  // }
+}
 
 export default function RootPage() {
-  // buat hooks dengan usestate
-  const [getValue, setValue] = useState({})
-  // buat fungsi "fetch data"
-  async function fetchData()
-  {
+  // buat hook
+  // hook dengan "use state"
+  const [getValue, setValue] = useState({});
+
+  // buat fungsi untuk panggil "getData"
+  async function fetchData() {
     setValue(await getData());
   }
-  // buat use hook "use effect"
+
+  // hook dengan "use effect"
   useEffect(() => {
-    // panggil ferch data
+    // panggil fungsi "fetchData"
     fetchData();
+  }, []);
 
-
-  }, [])
-
-
-  // bust fungsi setDelete
-  //ini parameter formal
-  function setDelete(npm: string, nama: string) 
-  {
-    // alert("klik delete");
-    if(confirm(`Data Mahasiswa Dengan npm: ${npm}\ndan nama: ${nama} \ningin dihapus ?`) == true)
-          {
-    setUpdateStatus(npm)
-    alert(`Data Mahasiswa Dengan npm: ${npm}\ndan nama: ${nama} Berhasil Dihapus`)
-    location.reload();
-    }
-
-    // else {
-    //   alert("tombol cancel");
-    // }
-
-  }
-
-
+  // const mahasiswa = await prisma.tb_mahasiswa.findUnique({
+  //   where: {
+  //     id: 17,
+  //   },
+  // })
 
   return (
-    <><title>View Data Mahasiswa</title>
-      {/*Menu untuk menambah data mahasiswa*/}
-      <nav className="mb-5 flex justify-end text-center">
-      <button className="btn btn-outline btn-success">
-        <Link href={"/add"}>
-        <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-        Tambah Data Mahasiswa
+    <>
+      <title>View Data Mahasiswa</title>
+
+      <nav className="text-center mb-5 flex justify-end">
+        <Link href={"/add"} className="btn btn-active btn-neutral">
+          <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+          Tambah Data Mahasiswa
         </Link>
-        </button>
-      </nav>
+      </nav>
+
       {/* tampilkan data mahasiswa */}
-      <table className='w-full'>
+      <table className="w-full">
         <thead>
-          <tr className='bg-slate-300 h-10'>
-            <th className='w-10% border border-slate-600'>Aksi</th>
-            <th className='w-10% border border-slate-600'>Npm</th>
-            <th className='w-50% border border-slate-600'>Nama</th>
-            <th className='w-30% border border-slate-600'>Jurusan</th>
+          <tr className="bg-slate-300 h-12">
+            <th className="w-10% border border-slate-700">Aksi</th>
+            <th className="w-10% border border-slate-700">NPM</th>
+            <th className="w-1/2 border border-slate-700">Nama</th>
+            <th className="w-30% border border-slate-700">Prodi</th>
           </tr>
         </thead>
         <tbody>
           {Object.values(getValue).map((data: any, index: number) => (
             // <div key={index}>
-            //   <div>{data.npm} - {data.nama} - {data.jurusan}</div>
+            //   <div>
+            //     {data.npm} - {data.nama} - {data.prodi}
+            //   </div>
             // </div>
 
             <tr key={index}>
-              <td className='text-center border border-slate-600 p-2'>
-                {/* edit icon */}
-                <Link href={`/edit/${btoa(data.npm)}`} className='bg-green-600 text-color2 px-2.5 py-5px rounded-md mr-5px text-sm' title='Edit'>
+              <td className="border border-slate-700 p-2.5 text-center">
+                {/* icon edit */}
+                <Link
+                  href={`/edit/${btoa(data.npm)}`}
+                  className="bg-sky-700 text-white py-5X px-2.5 rounded-md mr-1 text-sm"
+                  title="Ubah Data">
                   <FontAwesomeIcon icon={faPencil}></FontAwesomeIcon>
                 </Link>
 
-                {/* delete icon */}
-                <Link href={"/"} className='bg-red-600 text-color2 px-2.5 py-5px rounded-md ml-5px text-sm' title='Delete'
-                  // onClick={setDelete}>
-                  //ini parameter aktual
-                  onClick={() => {setDelete(data.npm, data.nama)}}> 
-                  <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                {/* icon delete */}
+                <Link
+                  href={"/"}
+                  className="bg-rose-700 text-white py-5X px-2.5 rounded-md ml-1 text-sm"
+                  title="Hapus Data"
+                  onClick={() => {
+                    setDelete(data.npm, data.nama);
+                  }}>
+                  <FontAwesomeIcon icon={faTrashCan}></FontAwesomeIcon>
                 </Link>
               </td>
-              <td className='text-center border border-slate-600'>{data.npm}</td>
-              <td className='text-justify border border-slate-600 px-2.5'>{data.nama}</td>
-              <td className='text-center border border-slate-600'>{data.jurusan}</td>
+              <td className="border border-slate-700 px-2.5 text-center">
+                {data.npm}
+              </td>
+              <td className="border border-slate-700 px-2.5 text-justify">
+                {data.nama}
+              </td>
+              <td className="border border-slate-700 px-2.5 text-center">
+                {data.prodi}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* {mahasiswa?.npm} */}
+      {/* {mahasiswa?.nama} */}
     </>
-  )
+  );
 }
