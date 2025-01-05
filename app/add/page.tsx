@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 export default function Addpage() {
     // buat hook ("use state")
@@ -17,21 +17,21 @@ export default function Addpage() {
         //     alert("Data tersimpan")
         // }
         // jika ada data yang tidak terisi
-       
-        
+
+
         //tenary operator
-        (getNPM !="" && getNama!="" && getJurusan!="" )
-        ?alert("Data Tersimpan")
-        :[alert("Lengkapi Seluruh Data !"),
-         alert("Gagal")]
+        (getNPM != "" && getNama != "" && getJurusan != "")
+            ? alert("Data Tersimpan")
+            : [alert("Lengkapi Seluruh Data !"),
+            alert("Gagal")]
     }
     return (
         <div>
             <div className="grid grid-cols-10 gap-2 items-center">
                 <div className="">NPM</div>
-                <div className="col-span-3 "> <input type="text" placeholder="Isi NPM" className="input input-bordered w-full " onChange={(e) => { setNPM(e.target.value) }} /> </div>
+                <div className="col-span-3 "> <input type="text" placeholder="Isi NPM" className="input input-bordered w-full " maxLength={8} onChange={(e) => { setNPM(e.target.value) }} /> </div>
                 <div className="col-start-1">Nama</div>
-                <div className="col-span-3"><input type="text" placeholder="Isi Nama" className="input input-bordered w-full " onChange={(e) => { setNama(e.target.value) }} /></div>
+                <div className="col-span-3"><input type="text" placeholder="Isi Nama" className="input input-bordered w-full " maxLength={50} onChange={(e) => { setNama(e.target.value) }} /></div>
                 <div className="col-start-1">Jurusan</div>
                 <div className="col-span-3"> <select defaultValue={""} className="select select-success w-full " onChange={(e) => { setJurusan(e.target.value) }}>
                     <option disabled value={""}>Pilih Jurusan</option>
