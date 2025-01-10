@@ -1,38 +1,21 @@
-"use client";
+// File: app/add/page.tsx
+'use client';
 
-import { get } from "http";
 import React, { useState } from "react";
 import { checkData, saveData } from "../models/mahasiswa";
 import Link from "next/link";
 
 export default function AddPage() {
-  // buat hook (use state)
   const [getNPM, setNPM] = useState("");
   const [getNama, setNama] = useState("");
   const [getProdi, setProdi] = useState("");
-
-  // buat hook (use state)
-  // untuk respon hasil fungsi "checkData"
   const [getValue, setValue] = useState({});
 
-  // buat fungsi untuk respon fungsi "checkData"
   const checkNPM = async (npm: string) => {
     setValue(await checkData(npm));
   };
 
-  // buat fungsi simpan data
   const setSaveData = async () => {
-    // if (getNPM == "" ||
-    //     getNama == "" ||
-    //     getProdi == ""
-    // ) {
-    //   alert("Lengkapi Seluruh Data !");
-    // } else {
-    //   alert("Ok");
-    //   alert("Yes");
-    // }
-
-    // ternary operator
     getNPM == "" || getNama == "" || getProdi == ""
       ? alert("Lengkapi Seluruh Data !")
       : [
