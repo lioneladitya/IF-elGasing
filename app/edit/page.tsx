@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { checkData, saveData } from "../../models/mahasiswa";
+import { checkData, saveData } from "../models/mahasiswa";
 
 export default function EditPage({
   params,
